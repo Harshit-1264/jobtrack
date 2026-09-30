@@ -194,7 +194,7 @@ Spacing is an 8px system (Tailwind's 4px scale — use even steps: `2`, `4`, `6`
 
 ### 1.1 Scaffold
 ```bash
-cd ~/Desktop/JobTrack
+cd ~/Desktop/jobtrack
 npx create-next-app@latest .
 ```
 Answer: TypeScript **yes** · ESLint **yes** · Tailwind **yes** · **`src/` directory yes** · App Router **yes** · Turbopack yes · import alias `@/*` **yes**.
