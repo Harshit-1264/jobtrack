@@ -189,6 +189,36 @@ jobtrack/
 >
 > If a tutorial tells you to put `url = env("DATABASE_URL")` in the schema, it is out of date.
 > Your `datasource` block only names the provider.
+>
+> **Fourth difference — a driver adapter is now REQUIRED.** `new PrismaClient()` with no
+> arguments throws `A driver adapter is required to connect to your database`. For MySQL the
+> adapter is **`@prisma/adapter-mariadb`** (yes, MariaDB — it is Prisma's MySQL driver):
+>
+> ```ts
+> const adapter = new PrismaMariaDb(process.env.DATABASE_URL!)
+> const prisma = new PrismaClient({ adapter })
+> ```
+>
+> Note `prisma migrate` works **without** the adapter — it uses Prisma's own engine. So the
+> schema and migrations can be perfect while the runtime client still cannot connect.
+
+> ### ⚠️ Use `127.0.0.1`, never `localhost`, in DATABASE_URL
+>
+> Homebrew MySQL listens on **IPv4 only** (`127.0.0.1:3306`). Node resolves `localhost` to
+> **`::1` (IPv6) first**, where nothing is listening. The result is a 10-second hang and:
+>
+> ```
+> pool timeout: failed to retrieve a connection from pool after 10001ms
+>     (pool connections: active=0 idle=0 limit=10)
+> ```
+>
+> It looks like a pool or credentials problem. It is neither — it is the wrong IP family.
+> `mysql` on the command line hides this because it uses a unix socket for `localhost`.
+>
+> ```
+> mysql://root:pw@localhost:3306/jobtrack   ❌ hangs then times out
+> mysql://root:pw@127.0.0.1:3306/jobtrack   ✅
+> ```
 
 ```prisma
 generator client {
