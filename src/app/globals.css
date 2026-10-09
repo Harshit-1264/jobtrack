@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
-/* Point Tailwind's default sans stack at Inter, loaded in layout.tsx.
-   Every element inherits font-sans, so this applies site-wide with no extra classes. */
 @theme inline {
+  /* Point Tailwind's default sans stack at Inter, loaded in layout.tsx.
+     Every element inherits font-sans, so this applies site-wide. */
   --font-sans: var(--font-inter);
+
+  /* Tailwind's smallest default breakpoint is sm:640px — far above phone width.
+     xs lets us treat a 320px iPhone SE differently from a 390px iPhone 15. */
+  --breakpoint-xs: 360px;
 }
