@@ -1,3 +1,4 @@
+import ModalTest from "@/components/applications/ModalTest";
 import StatusBadge from "@/components/ui/StatusBadge";
 import { prisma } from "@/lib/prisma";
 import { Briefcase, Pencil, Plus, Trash2 } from "lucide-react";
@@ -59,6 +60,7 @@ export default async function ApplicationsPage() {
         </div>
 
         <AddApplicationButton />
+        <ModalTest />
       </div>
 
       {applications.length === 0 ? (
