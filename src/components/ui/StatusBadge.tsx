@@ -1,4 +1,6 @@
 import { ApplicationStatus } from "@/generated/prisma/enums"
+// Labels live in one shared file so the badge and the form always agree.
+import { statusLabels } from "@/lib/labels"
 
 type StatusBadgeProps = {
     status: ApplicationStatus;
@@ -14,15 +16,6 @@ const statusStyles: Record<ApplicationStatus, string> = {
     REJECTED: "bg-red-50 text-red-700",
     WITHDRAWN: "bg-gray-100 text-gray-700"
 };
-
-const statusLabels: Record<ApplicationStatus, string> = {
-    APPLIED: "Applied",
-    SHORTLISTED: "Shortlisted",
-    INTERVIEW: "Interview",
-    OFFER: "Offer",
-    REJECTED: "Rejected",
-    WITHDRAWN: "Withdrawn",
-}
 
 export default function StatusBadge({ status }: StatusBadgeProps) {
     return (

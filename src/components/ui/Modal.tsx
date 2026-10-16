@@ -5,10 +5,14 @@ import { useEffect } from "react";
 
 export default function Modal({
     open,
-    onClose
+    onClose,
+    title,
+    children,
 } : {
-    open: boolean,
-    onClose: () => void
+    open: boolean;
+    onClose: () => void;
+    title: string;
+    children: React.ReactNode;
 }) { // this is a prop. It's how a parent passes information down. open is a true/false value.
     // Closed means render nothing at all — that is how a modal hides.
 
@@ -44,7 +48,7 @@ export default function Modal({
                 {/* Header row */}
                 <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
                     <h2 className="text-lg font-semibold text-gray-900">
-                        Add Application
+                        {title}
                     </h2>
                     {/* type="button" so it never submits the form we add later. */}
                     <button 
@@ -55,8 +59,9 @@ export default function Modal({
                         <X className="h-5 w-5"/>
                     </button>
                 </div>
-                <div>
-
+                {/* Anything you put between the opening and closing tags arrives as a prop called children. */}
+                <div className="max-h-[70dvh] overflow-y-auto p-5">
+                    {children}
                 </div>
             </div>
         </div>

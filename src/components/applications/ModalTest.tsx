@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Modal from "@/components/ui/Modal";
+import ApplicationForm from "./ApplicationForm";
 
 export default function ModalTest() {
     const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +16,14 @@ export default function ModalTest() {
                 Open Test Modal
             </button>
 
-            <Modal open={isOpen} onClose={() => setIsOpen(false)}/>
+            <Modal 
+                open={isOpen} 
+                onClose={() => setIsOpen(false)}
+                title="Add Application"
+            >
+                {/* <p>This form will go here.</p> this becomes children */}
+                <ApplicationForm  />
+            </Modal>
         </>
     )
 }
