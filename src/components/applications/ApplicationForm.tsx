@@ -27,7 +27,7 @@ function todayISO() {
 // All nine field values live HERE, not inside TextField/SelectField.
 // Those components only draw what they are given. Keeping the values in one
 // place is what makes it possible to send them all to the API in one go later.
-export default function ApplicationForm(){
+export default function ApplicationForm({ onCancel }:{ onCancel: () => void }){
     const [companyName, setCompanyName] = useState("");
     const [jobTitle, setJobTitle] = useState("");
     const [location, setLocation] = useState("");
@@ -43,8 +43,33 @@ export default function ApplicationForm(){
     const [jobUrl, setJobUrl] = useState("");
     const [notes, setNotes] = useState("");
 
+    function handleSubmit(event: React.FormEvent) {
+        // Without this the browser reloads the whole page, which is what
+        // forms did before JavaScript existed. We want to send it ourselves.
+        event.preventDefault();
+
+        // Collect all nine values into one object, shaped to match
+        // applicationSchema in src/lib/validations.ts.
+        const payload = {
+            companyName,
+            jobTitle,
+            location,
+            jobType,
+            status,
+            applicationDate, // "2026-10-18"; z.coerce.date() turns it into a Date
+            // Blank optional fields must be ABSENT, not "". z.url() rejects an
+            // empty string, and z.number() rejects a string of digits.
+            salary: salary ? Number(salary) : undefined,
+            jobUrl: jobUrl || undefined,
+            notes: notes || undefined,
+        };
+
+        console.log("Submitting:", payload);
+    }
+
+    // A real <form> means the Enter key submits, exactly as people expect.
     return (
-        <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
             {/* using TextField component here */}
             <TextField 
                 id="companyName"
@@ -136,6 +161,24 @@ export default function ApplicationForm(){
                 placeholder="Additional information about the application..."
                 rows={4}
             />
-        </div>
+
+            {/* Footer. Cancel MUST say type="button": inside a <form> a button
+                defaults to type="submit", so it would save instead of closing. */}
+            <div className="flex justify-end gap-3 border-t border-gray-200 pt-4">
+                <button
+                    type="button"
+                    onClick={onCancel}
+                    className="h-11 rounded-lg border border-gray-300 px-4 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    className="h-11 rounded-lg bg-blue-500 px-4 text-sm font-semibold text-white hover:bg-blue-600"
+                >
+                    Save Application
+                </button>
+            </div>
+        </form>
     )
 }

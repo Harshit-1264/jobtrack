@@ -22,7 +22,7 @@ export default function ModalTest() {
                 title="Add Application"
             >
                 {/* <p>This form will go here.</p> this becomes children */}
-                <ApplicationForm  />
+                <ApplicationForm onCancel = {() => setIsOpen(false)} />
             </Modal>
         </>
     )
